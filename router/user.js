@@ -72,15 +72,12 @@ router.post(
   }
 );
 router.post("/login", async (req, res, next) => {
-  const { email, password, userType } = req.body;
+  const { email, password } = req.body;
 
   const user = await User.findOne({ email });
   if (!user) throw CustomError(404, "Sorry, Email or Password is incorrect!");
 
   if (user.disable !== false) throw CustomError(401, `Sorry, you are disabled`);
-
-  if (user.userType !== userType)
-    throw CustomError(404, `Sorry, you are not a ${userType}`);
 
   const match = await user.comparePassword(password);
   if (!match) throw CustomError(404, "Sorry, Email or Password is incorrect!");
@@ -99,15 +96,20 @@ router.get("/profile/:id", authenticationMiddleware, async (req, res, next) => {
       },
     },
   });
+  currentUser.enrolledCourses.map((c) => {
+    if(c.courseId){
 
-  if(currentUser.img){
-  const file = path.resolve(__dirname, `../public/${currentUser.img}`);
-
-    var bitmap = fs.readFileSync(file);
-    const img = new Buffer(bitmap).toString("base64");
-    currentUser["img"]=img
-  }
-  res.send(currentUser);
+      if (c.courseId.img) {
+        const file = path.resolve(__dirname, `../public/${c.courseId.img}`);
+        
+        var bitmap = fs.readFileSync(file);
+        const img = new Buffer(bitmap).toString("base64");
+        c.courseId["img"] = img;
+      }
+    }
+      return c;
+    });
+    res.send(currentUser);
 });
 
 router.get("/profile", authenticationMiddleware, async (req, res, next) => {
