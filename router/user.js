@@ -111,7 +111,7 @@ router.get("/profile/:id", authenticationMiddleware, async (req, res, next) => {
 });
 
 router.get("/profile", authenticationMiddleware, async (req, res, next) => {
-  const user = await User.findById(req.user._id).populate({
+  const currentUser = await User.findById(req.user._id).populate({
     path: "enrolledCourses",
     populate: {
       path: "courseId",
@@ -120,11 +120,14 @@ router.get("/profile", authenticationMiddleware, async (req, res, next) => {
       },
     },
   });
-  const currentUser={...user}
-  const file = path.resolve(__dirname, `../public/${user.img}`);
+  if(currentUser.img)
+  {
+
+    const file = path.resolve(__dirname, `../public/${currentUser.img}`);
   var bitmap = fs.readFileSync(file);
   const img = new Buffer(bitmap).toString("base64");
   currentUser.img=img
+}
   res.send(currentUser);
 });
 
