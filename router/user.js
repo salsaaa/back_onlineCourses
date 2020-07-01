@@ -96,6 +96,14 @@ router.get("/profile/:id", authenticationMiddleware, async (req, res, next) => {
       },
     },
   });
+  if(currentUser.img){
+    const file = path.resolve(__dirname, `../public/${currentUser.img}`);
+        
+        var bitmap = fs.readFileSync(file);
+        const img = new Buffer(bitmap).toString("base64");
+        currentUser["img"] = img;
+
+  }
   currentUser.enrolledCourses.map((c) => {
     if(c.courseId){
 
