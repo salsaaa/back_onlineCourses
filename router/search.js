@@ -14,7 +14,7 @@ router.get("/courses", authenticationMiddleware, async (req, res, next) => {
  const users= currentUsers.map((u) => {
     
       if (u.img) {
-          const file = path.resolve(__dirname, `../public/${u.img}`);
+          const file = path.resolve(__dirname,'public',`${u.img}`);
           
           var bitmap = fs.readFileSync(file);
           const img = new Buffer(bitmap).toString("base64");
