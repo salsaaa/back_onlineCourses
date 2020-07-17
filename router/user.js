@@ -97,7 +97,7 @@ router.get("/profile/:id", authenticationMiddleware, async (req, res, next) => {
     },
   });
   if(currentUser.img){
-    const file = path.resolve(__dirname,'public',`${currentUser.img}`);
+    const file = path.resolve(__dirname, 'public',`${currentUser.img}`);
         
         var bitmap = fs.readFileSync(file);
         const img = new Buffer(bitmap).toString("base64");
@@ -133,7 +133,7 @@ router.get("/profile", authenticationMiddleware, async (req, res, next) => {
   if(currentUser.img)
   {
 
-    const file = path.resolve(__dirname,'public',`${currentUser.img}`);
+    const file = path.resolve(__dirname, 'public',`${currentUser.img}`);
   var bitmap = fs.readFileSync(file);
   const img = new Buffer(bitmap).toString("base64");
   currentUser.img=img

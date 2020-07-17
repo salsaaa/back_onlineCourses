@@ -32,7 +32,7 @@ router.get("/filters&Pagination", async (req, res, next) => {
       .populate("categoryId");
     filters.map((c) => {
       if (c.img) {
-        const file = path.resolve(__dirname, `../public/${c.img}`);
+        const file = path.resolve(__dirname, 'public',`${c.img}`);
 
         var bitmap = fs.readFileSync(file);
         const img = new Buffer(bitmap).toString("base64");
@@ -52,7 +52,7 @@ router.get("/filters&Pagination", async (req, res, next) => {
       .populate("categoryId");
     filters.map((c) => {
       if (c.img) {
-        const file = path.resolve(__dirname, `../public/${c.img}`);
+        const file = path.resolve(__dirname, 'public',`${c.img}`);
         var bitmap = fs.readFileSync(file);
         const img = new Buffer(bitmap).toString("base64");
         c["img"] = img;
@@ -78,7 +78,7 @@ router.get("/:id", authenticationMiddleware, async (req, res, next) => {
   const course = await Course.findById(id).populate("categoryId");
   let img = "";
   if (course.img) {
-    const file = path.resolve(__dirname, `../public/${course.img}`);
+    const file = path.resolve(__dirname, 'public',`${course.img}`);
     var bitmap = fs.readFileSync(file);
     img = new Buffer(bitmap).toString("base64");
   }
@@ -183,7 +183,7 @@ router.post("/:id/enroll", authenticationMiddleware, async (req, res, next) => {
 //upload file
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public");
+    cb(null, "./router/public");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
