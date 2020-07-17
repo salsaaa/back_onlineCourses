@@ -30,16 +30,16 @@ router.get("/filters&Pagination", async (req, res, next) => {
       .skip(size * (pageNo - 1))
       .limit(size)
       .populate("categoryId");
-    filters.map((c) => {
-      if (c.img) {
-        const file = path.resolve(__dirname,'public',`${c.img}`);
+    // filters.map((c) => {
+    //   if (c.img) {
+    //     const file = path.resolve(__dirname,'public',`${c.img}`);
 
-        var bitmap = fs.readFileSync(file);
-        const img = new Buffer(bitmap).toString("base64");
-        c["img"] = img;
-      }
-      return c;
-    });
+    //     var bitmap = fs.readFileSync(file);
+    //     const img = new Buffer(bitmap).toString("base64");
+    //     c["img"] = img;
+    //   }
+    //   return c;
+    // });
     const coursesCount = await Course.find({
       categoryId: { $in: catsArr },
     }).count();
@@ -50,15 +50,15 @@ router.get("/filters&Pagination", async (req, res, next) => {
       .skip(size * (pageNo - 1))
       .limit(size)
       .populate("categoryId");
-    filters.map((c) => {
-      if (c.img) {
-        const file = path.resolve(__dirname, 'public',`${c.img}`);
-        var bitmap = fs.readFileSync(file);
-        const img = new Buffer(bitmap).toString("base64");
-        c["img"] = img;
-      }
-      return c;
-    });
+    // filters.map((c) => {
+    //   if (c.img) {
+    //     const file = path.resolve(__dirname, 'public',`${c.img}`);
+    //     var bitmap = fs.readFileSync(file);
+    //     const img = new Buffer(bitmap).toString("base64");
+    //     c["img"] = img;
+    //   }
+    //   return c;
+    // });
     const coursesCount = await Course.find({}).count();
     res.json({ filters, coursesCount });
   }
@@ -76,14 +76,14 @@ router.get("/:id", authenticationMiddleware, async (req, res, next) => {
     enrolled = false;
   }
   const course = await Course.findById(id).populate("categoryId");
-  let img = "";
-  if (course.img) {
-    const file = path.resolve(__dirname, 'public',`${c.img}`);
-    var bitmap = fs.readFileSync(file);
-    img = new Buffer(bitmap).toString("base64");
-  }
+  // let img = "";
+  // if (course.img) {
+  //   const file = path.resolve(__dirname, 'public',`${c.img}`);
+  //   var bitmap = fs.readFileSync(file);
+  //   img = new Buffer(bitmap).toString("base64");
+  // }
 
-  res.json({ course, enrolled, img });
+  res.json({ course, enrolled});
 });
 //get enrolled course by id
 router.get(

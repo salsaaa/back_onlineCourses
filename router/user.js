@@ -96,27 +96,27 @@ router.get("/profile/:id", authenticationMiddleware, async (req, res, next) => {
       },
     },
   });
-  if(currentUser.img){
-    const file = path.resolve(__dirname,'public',`${currentUser.img}`);
+  // if(currentUser.img){
+  //   const file = path.resolve(__dirname,'public',`${currentUser.img}`);
         
-        var bitmap = fs.readFileSync(file);
-        const img = new Buffer(bitmap).toString("base64");
-        currentUser["img"] = img;
+  //       var bitmap = fs.readFileSync(file);
+  //       const img = new Buffer(bitmap).toString("base64");
+  //       currentUser["img"] = img;
 
-  }
-  currentUser.enrolledCourses.map((c) => {
-    if(c.courseId){
+  // }
+  // currentUser.enrolledCourses.map((c) => {
+  //   if(c.courseId){
 
-      if (c.courseId.img) {
-        const file = path.resolve(__dirname, 'public',`${c.courseId.img}`);
+  //     if (c.courseId.img) {
+  //       const file = path.resolve(__dirname, 'public',`${c.courseId.img}`);
         
-        var bitmap = fs.readFileSync(file);
-        const img = new Buffer(bitmap).toString("base64");
-        c.courseId["img"] = img;
-      }
-    }
-      return c;
-    });
+  //       var bitmap = fs.readFileSync(file);
+  //       const img = new Buffer(bitmap).toString("base64");
+  //       c.courseId["img"] = img;
+  //     }
+  //   }
+  //     return c;
+  //   });
     res.send(currentUser);
 });
 
@@ -130,14 +130,14 @@ router.get("/profile", authenticationMiddleware, async (req, res, next) => {
       },
     },
   });
-  if(currentUser.img)
-  {
+//   if(currentUser.img)
+//   {
 
-    const file = path.resolve(__dirname,'public',`${currentUser.img}`);
-  var bitmap = fs.readFileSync(file);
-  const img = new Buffer(bitmap).toString("base64");
-  currentUser.img=img
-}
+//     const file = path.resolve(__dirname,'public',`${currentUser.img}`);
+//   var bitmap = fs.readFileSync(file);
+//   const img = new Buffer(bitmap).toString("base64");
+//   currentUser.img=img
+// }
   res.send(currentUser);
 });
 
@@ -157,9 +157,10 @@ router.post(
 );
 
 router.patch("/:id", authenticationMiddleware, async (req, res, next) => {
+  console.log("dkhal")
   const { id } = req.params;
-
   const { fullName, email, points, enrolledCourses,img } = req.body;
+  console.log("image",img)
   const user = await User.findByIdAndUpdate(
     id,
     { fullName, email, points, enrolledCourses,img },
